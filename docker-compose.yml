@@ -8,7 +8,7 @@ services:
   postgres:
     image: postgres:16.6
     volumes:
-      - "./kestra-data/postgres-data:/var/lib/postgresql/data:rw"
+      - "./project_insides/kestra-data/postgres-data:/var/lib/postgresql/data:rw"
     environment:
       POSTGRES_DB: kestra
       POSTGRES_USER: kestra
@@ -27,9 +27,9 @@ services:
     user: "root"
     command: server standalone
     volumes:
-      - ./kestra-data:/app/storage
+      - ./project_insides/kestra-data:/app/storage
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./kestra-data/kestra-wd:/tmp/kestra-wd
+      - ./project_insides/kestra-data/kestra-wd:/tmp/kestra-wd
     environment:
       KESTRA_CONFIGURATION: |
         datasources:
@@ -65,10 +65,18 @@ services:
       postgres:
         condition: service_healthy
       
-  pgadmin:
-    image: dpage/pgadmin4
-    environment:
-    - PGADMIN_DEFAULT_EMAIL=admin@admin.com
-    - PGADMIN_DEFAULT_PASSWORD=root
+  pyspark:
+    image: bitnami/spark:latest
+    container_name: pyspark-container
+    command: /opt/bitnami/spark/sbin/start-master.sh
+    volumes:
+      - ./project_insides/pyspark/scripts:/opt/spark/scripts
+      - ./project_insides/pyspark/logs:/opt/spark/logs
     ports:
-    - "18080:80"
+      - "4040:4040"  
+      - "7077:7077"  
+    environment:
+      - SPARK_MASTER=spark://pyspark-container:7077
+    depends_on:
+      - postgres
+

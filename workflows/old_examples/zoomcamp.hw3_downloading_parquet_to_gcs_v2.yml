@@ -1,0 +1,66 @@
+id: hw3_downloading_parquet_to_gcs_v2
+namespace: zoomcamp
+description: |
+  The web page used as a source: https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
+  Direct links to some files:
+  https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2024-01.parquet
+  https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2024-02.parquet
+
+pluginDefaults:
+  - type: io.kestra.plugin.gcp
+    values:
+        serviceAccount: "{{kv('GCP_CREDS')}}"
+        projectId: "{{kv('GCP_PROJECT_ID')}}"
+        location: "{{kv('GCP_LOCATION')}}"
+        bucket: "{{kv('GCP_BUCKET_NAME')}}"
+
+inputs:
+  - id: taxi
+    type: SELECT
+    displayName: Select taxi type
+    values: [yellow, green]
+    defaults: yellow
+
+variables:
+  file: "{{inputs.taxi}}_tripdata_{{trigger.date | date ('yyyy-MM')}}.parquet"
+  gcs_file: "gs://{{kv('GCP_BUCKET_NAME')}}/{{vars.file}}"
+  data: "{{outputs.extract.outputFiles[inputs.taxi ~ '_tripdata_' ~ (trigger.date | date ('yyyy-MM')) ~ '.parquet']}}"
+
+triggers:
+  - id: green_schedule
+    type: io.kestra.plugin.core.trigger.Schedule
+    cron: "0 9 1 * *"
+    inputs:
+      taxi: green
+
+  - id: yellow_schedule
+    type: io.kestra.plugin.core.trigger.Schedule
+    cron: "0 10 1 * *"
+    inputs:
+      taxi: yellow
+
+tasks:
+  - id: set_label
+    type: io.kestra.plugin.core.execution.Labels
+    labels:
+      file: "{{render(vars.file)}}"
+      taxi: "{{inputs.taxi}}"
+
+  - id: extract
+    type: io.kestra.plugin.scripts.shell.Commands
+    outputFiles:
+      - "*.parquet"
+    taskRunner: 
+      type: io.kestra.plugin.core.runner.Process
+    commands:
+      - wget -qO- https://d37ci6vzurychx.cloudfront.net/trip-data/{{render(vars.file)}}
+
+  - id: upload_to_gcs
+    type: io.kestra.plugin.gcp.gcs.Upload
+    from: "{{render(vars.data)}}"
+    to: "{{render(vars.gcs_file)}}"
+
+  - id: purge_files
+    type: io.kestra.plugin.core.storage.PurgeCurrentExecutionFiles
+    description: removes files from a docker container and your directory
+

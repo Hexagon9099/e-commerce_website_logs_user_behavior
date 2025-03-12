@@ -1,1 +1,2 @@
-kestra-data/postgres-data/
+project_insides/kestra-data/postgres-data/
+secrets/
