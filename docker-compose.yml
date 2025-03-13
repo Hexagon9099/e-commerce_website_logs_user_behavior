@@ -1,3 +1,7 @@
+networks:
+  kestra-network:
+    driver: bridge
+
 volumes:
   postgres-data:
     driver: local
@@ -6,6 +10,8 @@ volumes:
 
 services:
   postgres:
+    networks:
+      - kestra-network
     image: postgres:16.6
     volumes:
       - "./project_insides/kestra-data/postgres-data:/var/lib/postgresql/data:rw"
@@ -22,6 +28,8 @@ services:
       - "15432:5432"
 
   kestra:
+    networks:
+      - kestra-network
     image: kestra/kestra:latest
     pull_policy: always
     user: "root"
@@ -30,6 +38,7 @@ services:
       - ./project_insides/kestra-data:/app/storage
       - /var/run/docker.sock:/var/run/docker.sock
       - ./project_insides/kestra-data/kestra-wd:/tmp/kestra-wd
+      - ./project_insides/pyspark/scripts:/opt/spark/scripts
     environment:
       KESTRA_CONFIGURATION: |
         datasources:
@@ -64,19 +73,32 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-      
-  pyspark:
-    image: bitnami/spark:latest
-    container_name: pyspark-container
-    command: /opt/bitnami/spark/sbin/start-master.sh
-    volumes:
-      - ./project_insides/pyspark/scripts:/opt/spark/scripts
-      - ./project_insides/pyspark/logs:/opt/spark/logs
-    ports:
-      - "4040:4040"  
-      - "7077:7077"  
-    environment:
-      - SPARK_MASTER=spark://pyspark-container:7077
-    depends_on:
-      - postgres
+
+  pyspark-master:
+   image: bitnami/spark:latest
+   container_name: pyspark-master
+   networks:
+     - kestra-network
+   command: /opt/bitnami/spark/sbin/start-master.sh
+   volumes:
+     - ./project_insides/pyspark/scripts:/opt/spark/scripts
+     - ./project_insides/pyspark/logs:/opt/spark/logs
+   ports:
+     - "4040:4040"
+     - "7077:7077"
+   environment:
+     - SPARK_MASTER=spark://pyspark-master:7077
+   depends_on:
+     - postgres     
+ 
+  pyspark-worker:
+   image: bitnami/spark:latest
+   container_name: pyspark-worker
+   networks:
+     - kestra-network
+   command: /opt/bitnami/spark/sbin/start-worker.sh spark://pyspark-master:7077
+   ports:
+     - "4041:4040"
+   depends_on:
+     - pyspark-master
 
