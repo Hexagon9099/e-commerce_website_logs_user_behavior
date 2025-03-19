@@ -32,7 +32,7 @@ services:
   kestra:
     networks:
       - kestra-network
-    image: kestra/kestra:latest
+    image: kestra/kestra:v0.21.6
     pull_policy: always
     user: "root"
     command: server standalone
