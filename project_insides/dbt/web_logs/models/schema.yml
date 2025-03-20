@@ -1,0 +1,29 @@
+version: 2
+
+sources:
+  - name: source_bq
+    database: de-projects-453518 #Replace with your GCP project id, specified in "gcp_project_id" task of "1_gcp_kv.yml" file
+    schema: web_logs_dataset # Replace with your BQ dataset name, specified in "gcp_dataset" task of "1_gcp_kv.yml" file
+
+    tables:
+      - name: web_logs
+
+models:
+  - name: fraud_detected
+    description: "Fraudulent IPs that fulfilled all 3 different types of suspicious activity. Criteria are in the column description."
+    columns:
+      - name: ip
+        data_type: string
+        description: "Fraudelent IP address"
+
+      - name: requests_per_second
+        data_type: integer
+        description: "Frequency requests more than 3 times during 1 second (times per second)"
+
+      - name: requests_per_day_from_3_account_types
+        data_type: integer
+        description: "Logged in with 3 different account types during 1 day (times per day)"
+
+      - name: sessions_q75_duration_bytes
+        data_type: integer
+        description: "Sessions where the IP address's consumed bytes AND duration time exceed 75% of all users (sessions over all time)"
