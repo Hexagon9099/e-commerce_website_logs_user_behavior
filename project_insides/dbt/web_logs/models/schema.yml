@@ -26,4 +26,54 @@ models:
 
       - name: sessions_q75_duration_bytes
         data_type: integer
-        description: "Sessions where the IP address's consumed bytes AND duration time exceed 75% of all users (sessions over all time)"
+        description: "Sessions where the IP address's consumed bytes AND duration time exceed 75% of all users. Such exceeding was repeated more than once (sessions over all time)"
+
+  - name: RFM_analysis
+    description: "Calculates RFM scores and assigns users to segments based on their engagement and spending behavior. Fraudulent traffic is excluded to ensure data accuracy."
+    columns:
+      - name: ip
+        data_type: string
+        description: "User's IP address"
+
+      - name: last_login_days_ago
+        data_type: integer
+        description: "Recency: The number of days since the user's last login, measured from the dataset's latest date"
+
+      - name: logins_per_week
+        data_type: integer
+        description: "Frequency: The number of logins in the past week"
+
+      - name: spent_per_week
+        data_type: float64
+        description: "Monetary: The total amount spent (EUR) in the past week"
+
+      - name: user_value
+        data_type: string
+        description: "User segment based on RFM scores: high, mid, or low-value users"
+
+  - name: user_segmentation
+    description: "Segmentation of users based on RFM scores. Provides insights into segment distribution by country, along with average age and gender composition"
+    columns:
+      - name: country
+        data_type: string
+        description: "2-digit country code. Repeats once for each user segment"
+
+      - name: user_value
+        data_type: string
+        description: "User segmentation based on their RFM values. Users are divided into 3 segments: high-, mid-, and low-valuable users"
+
+      - name: user_value_share_per_country
+        data_type: float64
+        description: "The percentage of users in this segment within each country"
+
+      - name: avg_age
+        data_type: float64
+        description: "The average age of users in this segment for each country"
+
+      - name: percentage_male
+        data_type: float64
+        description: "Percentage of male users in this segment within each country"
+
+      - name: percentage_female
+        data_type: float64
+        description: "Percentage of female users in this segment within each country"

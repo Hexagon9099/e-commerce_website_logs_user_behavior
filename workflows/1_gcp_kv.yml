@@ -1,51 +1,52 @@
 id: 1_gcp_kv
 namespace: website_logs
 
-# Replace "value" in this block to the content of your GCP service account JSON key. The data below is not a real key, but an example for you to understand expecting format
-
 tasks:
   - id: gcp_creds
     type: io.kestra.plugin.core.kv.Set
     key: GCP_CREDS
     kvType: JSON
+    # Replace contents of "value" to the contents of your GCP service account JSON key. The data below is not a real key, but an example for you to understand expecting format
     value: |
       {
        "type": "service_account",
-       "project_id": "your_project_id",
+       "project_id": "project-id-123456",
        "private_key_id": "t000tt00t00f0f0ff00t000f0f00000fttf0000f",
        "private_key": "-----BEGIN PRIVATE KEY-----\sdklkglaskdlasdaGSF898asfASfFAs6\asfhASfjhfv,jasvf,jVASf768758asfasf8758sf5asf86aASf/S6fadfs\sdfs85a/sdgsdgs85s8dg/LK\kdskdgbksdbgksdjgbksdjbgsd8969sd6g87sb44433V+Z54sdg97d\bJvv/dv86sb4snF+YT658f/dfkjkdgbsdkgbhsd086\sdgsd8g5sdgsdgsdg48+fdfhdfshdfh865+zz7\siG/gdgsdgawywtu967sf6/557\sdgsdg+tjetj975rj+sdgsdg\sdg9s7d5sg/7YTFdssdg+CH7dsg5\sdgsdgsd98989+iiu7+UhUh\dfsdhsfh555sg58/piskapiskasosiska758sd6f5s/sdgkb8\sdgsdF+sdfsdf+sdgsdds/GDJSF0\sdgsdg79/\sdgsdg989+sdgs6a5+FF/sdg9sd7g5\sdgsdg785/sdgsdg85\sdgsdg85+FF/sdgsdgs9d65+sdgsdgsd875\sdgsd67s4g/7d+sdgs86+sdg86/fsfs8asf58",
-       "client_email": "zoomcamp@your_project_id.iam.gserviceaccount.com",
+       "client_email": "zoomcamp@project-id-123456.iam.gserviceaccount.com",
        "client_id": "000000000000000000000",
        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
        "token_uri": "https://oauth2.googleapis.com/token",
        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-       "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/zoomcamp%40your_project_id.iam.gserviceaccount.com",
+       "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/zoomcamp%40project-id-123456.iam.gserviceaccount.com",
        "universe_domain": "googleapis.com"
       }
-
-    # Replace "value" in every following block
 
   - id: gcp_project_id
     type: io.kestra.plugin.core.kv.Set
     key: GCP_PROJECT_ID
     kvType: STRING
-    value: your_project_id 
+    # Replace "value" with your project ID
+    value: project-id-123456 
 
   - id: gcp_location
     type: io.kestra.plugin.core.kv.Set
     key: GCP_LOCATION
     kvType: STRING
+    # You can leave "value" as is (replace at your choice)
     value: europe-west2
 
   - id: gcp_bucket_name
     type: io.kestra.plugin.core.kv.Set
     key: GCP_BUCKET_NAME
     kvType: STRING
-    value: bucket-your_project_id
+    # Replace "value" with anything, but this bucket name has to be globally unique
+    value: bucket-project-id-17504049009
 
   - id: gcp_dataset
     type: io.kestra.plugin.core.kv.Set
     key: GCP_DATASET
     kvType: STRING
-    value: de_zoomcamp
+    # You can leave "value" as is (replace at your choice)
+    value: web_logs_dataset
 

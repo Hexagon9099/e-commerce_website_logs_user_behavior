@@ -13,7 +13,7 @@ SELECT
   ip,
   COUNT(*) AS request_count,
   TIMESTAMP_TRUNC(accessed_date, SECOND) AS time_window
-FROM `de-projects-453518.web_logs_dataset.web_logs`
+FROM {{source('source_bq', 'web_logs')}}
 GROUP BY 1,3
 HAVING request_count >= 3
 ORDER BY request_count DESC
@@ -25,7 +25,7 @@ SELECT
   DATE(accessed_date) AS request_date,
   COUNT(DISTINCT account_type) AS unique_accounts,
   COUNT(*) AS total_requests
-FROM `de-projects-453518.web_logs_dataset.web_logs`
+FROM {{source('source_bq', 'web_logs')}}
 GROUP BY ip, request_date
 HAVING unique_accounts > 2
 ORDER BY total_requests DESC),
@@ -35,7 +35,7 @@ WITH quatiles AS(
   SELECT
     APPROX_QUANTILES(duration_sec, 100)[OFFSET(75)] AS q75_duration,
     APPROX_QUANTILES(bytes, 100)[OFFSET(75)] AS q75_bytes
-  FROM `de-projects-453518.web_logs_dataset.web_logs`
+  FROM {{source('source_bq', 'web_logs')}}
 )
 SELECT
   ip,
@@ -44,7 +44,7 @@ SELECT
   q75_duration,
   ROUND(AVG(duration_sec)) AS avg_session_duration,
   COUNT(*) AS session_count
-FROM `de-projects-453518.web_logs_dataset.web_logs`, quatiles
+FROM {{source('source_bq', 'web_logs')}}, quatiles
 GROUP BY ip, bytes, q75_bytes, q75_duration
 HAVING avg_session_duration >q75_duration AND bytes>q75_bytes
   AND session_count>1
