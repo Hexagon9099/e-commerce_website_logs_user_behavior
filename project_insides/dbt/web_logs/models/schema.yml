@@ -77,3 +77,30 @@ models:
       - name: percentage_female
         data_type: float64
         description: "Percentage of female users in this segment within each country"
+
+  - name: user_behavior_by_account_type
+    description: "Analysis of user accounts segmented by account type. Provides insights into total accounts, average lifetime value (LTV), ARPU, weekly retention rate, and refund rate based on user behavior and attributes."
+    columns:
+      - name: account_type
+        data_type: string
+        description: "The type of user account. Includes values such as 'Premium', 'Normal', and 'Not Logged In'."
+
+      - name: total_accounts
+        data_type: int64
+        description: "The total number of accounts within each account type segment."
+
+      - name: avg_LTV
+        data_type: float64
+        description: "The average lifetime value (LTV) of users within each account type segment. It reflects the total revenue generated per user over their lifetime."
+
+      - name: ARPU_per_day
+        data_type: float64
+        description: "The average revenue per user per day (ARPU) for each account type segment. Calculated as the total revenue per user divided by the number of active days."
+
+      - name: retention_rate_per_week
+        data_type: float64
+        description: "The weekly retention rate for each account type segment. It measures the percentage of users who return to the platform within the first 7 days after their first visit."
+
+      - name: refund_rate
+        data_type: float64
+        description: "The refund rate for each account type segment. It is the percentage of total refunded amount relative to the total sales for the segment."
