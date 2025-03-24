@@ -1,0 +1,13 @@
+{gitPath:"project_insides/dbt/web_logs/README.md",syncState:"OVERWRITTEN",kestraPath:"/kestra/website_logs/_files/README.md"}
+{gitPath:"project_insides/dbt/web_logs/analyses/",syncState:"OVERWRITTEN",kestraPath:"/kestra/website_logs/_files/analyses/"}
+{gitPath:"project_insides/dbt/web_logs/dbt_project.yml",syncState:"OVERWRITTEN",kestraPath:"/kestra/website_logs/_files/dbt_project.yml"}
+{gitPath:"project_insides/dbt/web_logs/macros/",syncState:"OVERWRITTEN",kestraPath:"/kestra/website_logs/_files/macros/"}
+{gitPath:"project_insides/dbt/web_logs/models/",syncState:"OVERWRITTEN",kestraPath:"/kestra/website_logs/_files/models/"}
+{gitPath:"project_insides/dbt/web_logs/models/RFM_analysis.sql",syncState:"OVERWRITTEN",kestraPath:"/kestra/website_logs/_files/models/RFM_analysis.sql"}
+{gitPath:"project_insides/dbt/web_logs/models/fraud_detected.sql",syncState:"OVERWRITTEN",kestraPath:"/kestra/website_logs/_files/models/fraud_detected.sql"}
+{gitPath:"project_insides/dbt/web_logs/models/schema.yml",syncState:"OVERWRITTEN",kestraPath:"/kestra/website_logs/_files/models/schema.yml"}
+{gitPath:"project_insides/dbt/web_logs/models/user_behavior_by_account_type.sql",syncState:"OVERWRITTEN",kestraPath:"/kestra/website_logs/_files/models/user_behavior_by_account_type.sql"}
+{gitPath:"project_insides/dbt/web_logs/models/user_segmentation.sql",syncState:"OVERWRITTEN",kestraPath:"/kestra/website_logs/_files/models/user_segmentation.sql"}
+{gitPath:"project_insides/dbt/web_logs/seeds/",syncState:"OVERWRITTEN",kestraPath:"/kestra/website_logs/_files/seeds/"}
+{gitPath:"project_insides/dbt/web_logs/snapshots/",syncState:"OVERWRITTEN",kestraPath:"/kestra/website_logs/_files/snapshots/"}
+{gitPath:"project_insides/dbt/web_logs/tests/",syncState:"OVERWRITTEN",kestraPath:"/kestra/website_logs/_files/tests/"}
