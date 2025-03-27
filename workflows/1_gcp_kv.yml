@@ -33,7 +33,7 @@ tasks:
     type: io.kestra.plugin.core.kv.Set
     key: GCP_LOCATION
     kvType: STRING
-    # You can leave "value" as is
+    # Leave this "value" as is
     value: europe-west2
 
   - id: gcp_bucket_name
@@ -47,6 +47,6 @@ tasks:
     type: io.kestra.plugin.core.kv.Set
     key: GCP_DATASET
     kvType: STRING
-    # You can leave "value" as is
+    # Leave this "value" as is
     value: web_logs_dataset
 
