@@ -1,1 +1,1 @@
-E-commerce website logs (user behavior) analysis end-to-end project
+This file is under construction. To run the project, go to [instructions](INSTRUCTIONS.md)
