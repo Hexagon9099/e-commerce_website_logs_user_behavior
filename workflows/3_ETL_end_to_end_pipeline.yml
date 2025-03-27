@@ -114,7 +114,7 @@ tasks:
         spark.stop()
     docker:
       image: bitnami/spark
-      networkMode: e-commerce_website_logs_user_behavior_kestra-network
+      networkMode: website_logs_kestra-network
       volumes:
         - shared-data:/data
       user: root
@@ -214,7 +214,7 @@ tasks:
 
   - id: access_dbt_project
     type: io.kestra.plugin.git.SyncNamespaceFiles
-    url: https://github.com/Hexagon9099/e-commerce_website_logs_user_behavior
+    url: https://github.com/Hexagon9099/website_logs
     branch: main
     namespace: "{{flow.namespace}}"
     gitDirectory: project_insides/dbt/web_logs
