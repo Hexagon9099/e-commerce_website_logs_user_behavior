@@ -1,0 +1,274 @@
+id: 3_ETL_end_to_end_pipeline
+namespace: website_logs
+
+pluginDefaults:
+  - type: io.kestra.plugin.gcp
+    values:
+        serviceAccount: "{{kv('GCP_CREDS')}}"
+        projectId: "{{kv('GCP_PROJECT_ID')}}"
+        location: "{{kv('GCP_LOCATION')}}"
+        bucket: "{{kv('GCP_BUCKET_NAME')}}"
+
+# The schedule is for production. You don't need this feature enabled for running the project. 
+
+# triggers:
+#   - id: schedule
+#     type: io.kestra.plugin.core.trigger.Schedule
+#     cron: "0 5 * * 1"
+
+tasks:
+  - id: extract
+    type: io.kestra.plugin.scripts.shell.Commands
+    taskRunner:
+      type: io.kestra.plugin.core.runner.Process
+    commands:
+      #if the link in wget command stopped working, you can use dataset_backup.zip file in ./project_insides
+      - wget -qO dataset.zip https://www.kaggle.com/api/v1/datasets/download/kzmontage/e-commerce-website-logs 
+      - unzip dataset.zip
+      - mv *.csv dataset.csv
+    outputFiles:
+      - "dataset.csv"
+
+  - id: spark_transformation
+    type: io.kestra.plugin.spark.SparkCLI
+    inputFiles:
+      dataset.csv: "{{outputs.extract.outputFiles['dataset.csv']}}"
+      data_transformation.py: |
+
+        from pyspark.sql import SparkSession
+        from pyspark.sql import types
+        from pyspark.sql.functions import when
+        from pyspark.sql.functions import expr
+        from pyspark.sql.functions import initcap
+
+        spark = SparkSession.builder.appName("KestraPySpark").getOrCreate()
+
+        schema = types.StructType([
+            types.StructField('accessed_date', types.TimestampType(), True),
+            types.StructField('duration_(secs)', types.IntegerType(), True),
+            types.StructField('network_protocol', types.StringType(), True),
+            types.StructField('ip', types.StringType(), True),
+            types.StructField('bytes', types.IntegerType(), True),
+            types.StructField('accessed_Ffom', types.StringType(), True),
+            types.StructField('age', types.IntegerType(), True),
+            types.StructField('gender', types.StringType(), True),
+            types.StructField('country', types.StringType(), True),
+            types.StructField('membership', types.StringType(), True),
+            types.StructField('language', types.StringType(), True),
+            types.StructField('sales', types.DoubleType(), True),
+            types.StructField('returned', types.StringType(), True),
+            types.StructField('returned_amount', types.DoubleType(), True),
+            types.StructField('pay_method', types.StringType(), True)
+        ])
+
+        df = spark.read \
+            .option("header", "true") \
+            .schema(schema) \
+            .csv('/data/dataset.csv')
+
+        df = (
+            df \
+                .withColumnRenamed('duration_(secs)', 'duration_sec') \
+                .withColumnRenamed('accessed_Ffom', 'accessed_from') \
+                .withColumnRenamed('membership', 'account_type') \
+                .withColumnRenamed('returned', 'refunded') \
+                .withColumnRenamed('returned_amount', 'refunded_amount') \
+                .withColumnRenamed('pay_method', 'payment_method')
+        )
+
+        df = df.withColumn(
+            'accessed_from',
+            when(df['accessed_from'] == 'SafFRi', 'Safari')
+            .when(df['accessed_from'] == 'Others', 'Other')
+            .otherwise(df['accessed_from'])
+        )        
+
+        df = df.withColumn(
+            'network_protocol',
+            when(df['network_protocol'] == 'HTTP  ', 'HTTP')
+            .otherwise(df['network_protocol'])
+        )
+
+        df = df.withColumn(
+            'gender',
+            when(df['gender'] == 'Unknown', None)
+            .otherwise(df['gender'])
+        )
+
+        df = df.withColumn(
+            'payment_method',
+            when(df['payment_method'] == 'Debit Card', 'MasterCard')
+            .when(df['payment_method'] == 'Credit Card', 'Visa')
+            .when(df['payment_method'] == 'Cash', 'PayPal')
+            .otherwise('Other')
+        )
+
+        df = df.withColumn("accessed_date", expr("make_timestamp(2025, month(accessed_date), day(accessed_date), hour(accessed_date), minute(accessed_date), second(accessed_date))"))
+
+        df = df.withColumn("language", initcap(df["language"]))
+
+        df = df.repartition(10)
+
+        df.write.mode("overwrite").parquet('/data/dataset_repartitioned_parquet')
+
+        spark.stop()
+    docker:
+      image: bitnami/spark
+      networkMode: e-commerce_website_logs_user_behavior_kestra-network
+      volumes:
+        - shared-data:/data
+      user: root
+    commands:
+      - cp dataset.csv /data/dataset.csv
+      - cp data_transformation.py /data/data_transformation.py
+      - spark-submit --name data_transformation --master spark://pyspark-master:7077 /data/data_transformation.py
+      - cp -r /data/dataset_repartitioned_parquet/* .
+    outputFiles:
+      - "*.parquet"
+
+  - id: purge_gcs_folder
+    type: io.kestra.plugin.gcp.gcs.DeleteList
+    from: "gs://{{kv('GCP_BUCKET_NAME')}}/web-logs_pq/"
+
+  - id: upload_to_gcs
+    type: io.kestra.plugin.core.flow.ForEach
+    values: "{{ outputs.spark_transformation['outputFiles'] | jq('.[]') }}"
+    tasks:
+    - id: upload_partition
+      type: io.kestra.plugin.gcp.gcs.Upload
+      from: "{{ taskrun.value }}"
+      to: "gs://{{kv('GCP_BUCKET_NAME')}}/web-logs_pq/{{taskrun.value.split('/') | last}}"
+ 
+  - id: gcs_to_bq
+    type: io.kestra.plugin.gcp.bigquery.Query
+    sql: |
+      CREATE OR REPLACE EXTERNAL TABLE `{{kv('GCP_PROJECT_ID')}}.{{kv('GCP_DATASET')}}.web_logs_ext`
+      OPTIONS (
+      format = 'PARQUET',
+      uris = ['gs://{{kv('GCP_BUCKET_NAME')}}/web-logs_pq/*.parquet']
+      );
+
+  - id: bq_transformation
+    type: io.kestra.plugin.gcp.bigquery.Query
+    description: this step is for production. It guarantees data quality by eliminating duplicates when data is merged into the major table.
+    sql: |
+      CREATE OR REPLACE TABLE `{{kv('GCP_PROJECT_ID')}}.{{kv('GCP_DATASET')}}.web_logs_tmp` AS
+      SELECT
+        MD5(CONCAT(
+          COALESCE(CAST(accessed_date AS STRING), ""),
+          COALESCE(CAST(ip AS STRING), ""),
+          COALESCE(CAST(bytes AS STRING), "")
+          )) AS unique_hash,
+        accessed_date,
+        duration_sec,
+        network_protocol,
+        ip,
+        bytes,
+        accessed_from,
+        age,
+        gender,
+        country,
+        account_type,
+        language,
+        ROUND (sales/10,2) AS sales,
+        refunded,
+        ROUND(refunded_amount/10,2) AS refunded_amount,
+        payment_method
+      FROM `{{kv('GCP_PROJECT_ID')}}.{{kv('GCP_DATASET')}}.web_logs_ext`
+
+  - id: bq_register_main_table
+    type: io.kestra.plugin.gcp.bigquery.Query
+    sql: |
+      CREATE TABLE IF NOT EXISTS `{{kv('GCP_PROJECT_ID')}}.{{kv('GCP_DATASET')}}.web_logs`
+      (
+        unique_hash BYTES OPTIONS (description = "A unique identifier for the login"),
+        accessed_date TIMESTAMP OPTIONS (description = "date and time the login happened"),
+        duration_sec INTEGER OPTIONS (description = "how long the user was on the website, in seconds"),
+        network_protocol STRING OPTIONS (description = "network protocol the website was accessed with"),
+        ip STRING OPTIONS (description = "IP address the website was accessed from"),
+        bytes INTEGER OPTIONS (description = "how many bytes the user consumed per session"),
+        accessed_from STRING OPTIONS (description = "a platform the website was accessed from"),
+        age INTEGER OPTIONS (description = "user's age"),
+        gender STRING OPTIONS (description = "user's gender"),
+        country STRING OPTIONS (description = "a country the website was accessed from"),
+        account_type STRING OPTIONS (description = "user's account type"),
+        language STRING OPTIONS (description = "website language in which the login was authorized"),
+        sales FLOAT64 OPTIONS (description = "how many euros the user spent per session"),
+        refunded STRING OPTIONS (description = "did the user make a refund?"),
+        refunded_amount FLOAT64 OPTIONS (description = "how many euros were refunded to the user per session"),
+        payment_method STRING OPTIONS (description = "payment method used for a purchase")
+      )
+      PARTITION BY DATE(accessed_date)
+      CLUSTER BY account_type;
+
+  - id: bq_load_to_main_table
+    type: io.kestra.plugin.gcp.bigquery.Query
+    description: this block is mostly for production and running the pipeline every hour
+    sql: |
+      MERGE INTO `{{kv('GCP_PROJECT_ID')}}.{{kv('GCP_DATASET')}}.web_logs` M
+      USING `{{kv('GCP_PROJECT_ID')}}.{{kv('GCP_DATASET')}}.web_logs_tmp` T
+      ON M.unique_hash = T.unique_hash
+      WHEN NOT MATCHED THEN
+        INSERT (unique_hash, accessed_date, duration_sec, network_protocol, ip, bytes, accessed_from, age, gender, country, account_type, language, sales, refunded, refunded_amount, payment_method)
+        VALUES (T.unique_hash, T.accessed_date, T.duration_sec, T.network_protocol, T.ip, T.bytes, T.accessed_from, T.age, T.gender, T.country, T.account_type, T.language, T.sales, T.refunded, T.refunded_amount, T.payment_method)
+
+  - id: access_dbt_project
+    type: io.kestra.plugin.git.SyncNamespaceFiles
+    url: https://github.com/Hexagon9099/e-commerce_website_logs_user_behavior
+    branch: main
+    namespace: "{{flow.namespace}}"
+    gitDirectory: project_insides/dbt/web_logs
+    dryRun: false
+    # disabled: true #this Git Sync is needed only when running it the first time, afterwards the task can be disabled
+
+  - id: dbt_models
+    type: io.kestra.plugin.dbt.cli.DbtCLI
+    env:
+      DBT_DATABASE: "{{kv('GCP_PROJECT_ID')}}"
+      DBT_SCHEMA: "{{kv('GCP_DATASET')}}"
+    namespaceFiles: 
+      enabled: true
+    containerImage: ghcr.io/kestra-io/dbt-bigquery:latest
+    taskRunner:
+      type: io.kestra.plugin.scripts.runner.docker.Docker
+    inputFiles:
+      sa.json: "{{kv('GCP_CREDS')}}"
+    commands:
+      - dbt deps
+      - dbt build
+    storeManifest:
+      key: manifest.json
+      namespace: "{{flow.namespace}}"
+    profiles: |
+      web_logs: 
+        outputs:
+          dev: 
+            type: bigquery
+            dataset: "{{kv('GCP_DATASET')}}"
+            project: "{{kv('GCP_PROJECT_ID')}}"
+            location: "{{kv('GCP_LOCATION')}}"
+            keyfile: sa.json
+            method: service-account
+            priority: interactive
+            threads: 16
+            timeout_seconds: 300
+            fixed_retries: 1
+        target: dev
+
+  - id: drop_table_ext
+    type: io.kestra.plugin.gcp.bigquery.Query
+    sql: |
+      DROP TABLE `{{kv('GCP_PROJECT_ID')}}.{{kv('GCP_DATASET')}}.web_logs_ext`
+
+  - id: drop_table_tmp
+    type: io.kestra.plugin.gcp.bigquery.Query
+    sql: |
+      DROP TABLE `{{kv('GCP_PROJECT_ID')}}.{{kv('GCP_DATASET')}}.web_logs_tmp`
+
+  - id: purge_files
+    type: io.kestra.plugin.core.storage.PurgeCurrentExecutionFiles
+    description: removes files from a docker container and your directory
+
+
+
+
