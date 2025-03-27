@@ -69,8 +69,8 @@ If you have a GCP project, service account (with "BigQuery Admin" and "Storage A
    ![step 4.4 image](https://i.imgur.com/MyKyVcl.jpeg) \
  The tables are:
  - 24.5 "web_logs". Marketplace website logins for the period from 14.03.2025 to 21.03.2025
- - 24.1-24.4. You can find the discription of these tables in [schema.yml](workflows/schema.yml) file \
- The column description is avaliable in "Schema" of every table.
+ - 24.1-24.4. You can find the description of these tables in [schema.yml](workflows/schema.yml) file \
+ The column description is available in "Schema" of every table.
 
    
 
