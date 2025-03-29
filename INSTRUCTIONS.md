@@ -38,8 +38,10 @@ If you have a GCP project, service account (with "BigQuery Admin" and "Storage A
 2.5. Save the [1_gcp_kv.yml](workflows/1_gcp_kv.yml) file and open [schema.yml](workflows/schema.yml), located at `workflows/schema.yml` \
 2.6. Replace the content of row 5 with your GCP Project ID, which we have already specified in the 2.3 clause. \
 2.7. Save and close the [schema.yml](workflows/schema.yml) file. Don't change anything else in this file besides the action in the 2.6 clause for the project to run smoothly. \
-2.8. Open a terminal in the root directory of this project. Execute the command \
-      `cp ./workflows/schema.yml ./project_insides/dbt/web_logs/models/schema.yml`
+2.8. Open a terminal in the root directory of this project. Execute the folowwing commands \
+      `cp ./workflows/schema.yml ./project_insides/dbt/web_logs/models/schema.yml` \
+      `docker volume create shared-data` \
+      `docker volume create dbt-data`
 
 
 ## Step 3. Executing workflows
