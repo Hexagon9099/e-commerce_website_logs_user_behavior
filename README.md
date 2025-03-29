@@ -36,10 +36,10 @@ See step 4 in the [instructions](INSTRUCTIONS.md) for guidance on exploring the 
 
 🚨 Advanced Fraud Detection System – I implemented a robust multi-layered detection model to identify and filter out suspicious activity, ensuring only legitimate user data is analyzed.
 
-✅ Triple-Criteria Approach:
- 🔹 High-Frequency Requests – IPs making more than 3 requests per second are flagged as potential bots.
- 🔹 Unrealistic Account Usage – IPs accessing all 3 unique account types in a single day indicate potential credential abuse.
- 🔹 Suspicious Session Behavior – Users with session durations and data consumption in the top 25% of all users, repeating this pattern multiple times, are likely engaging in fraudulent activity.
+✅ Triple-Criteria Approach: \
+ 🔹 High-Frequency Requests – IPs making more than 3 requests per second are flagged as potential bots. \
+ 🔹 Unrealistic Account Usage – IPs accessing all 3 unique account types in a single day indicate potential credential abuse. \
+ 🔹 Suspicious Session Behavior – Users with session durations and data consumption in the top 25% of all users, repeating this pattern multiple times, are likely engaging in fraudulent activity. \
 🚨 Only those IPs that fulfilled all 3 criteria are considered fraudulent.
 
 💡 _Why It Matters?_ By proactively filtering out fraudulent traffic, I enhance the accuracy of user analytics, prevent revenue loss, and strengthen platform security—making our insights truly data-driven.
@@ -47,8 +47,8 @@ See step 4 in the [instructions](INSTRUCTIONS.md) for guidance on exploring the 
 ### Target Audience & User Segmentation 📊
 **Question**: _How can we identify and segment our most valuable users based on their engagement and spending behavior?_
 
-🔹 User Value Segmentation – Implemented RFM (Recency, Frequency, Monetary) analysis classifies users into three value groups: high, mid, and low.  This segmentation helps in understanding user retention, loyalty, and contribution to revenue.
-🔹 Fraud Detection & Data Integrity – To ensure accurate insights, fraudulent traffic was excluded from the analysis, preventing skewed results.
+🔹 User Value Segmentation – Implemented RFM (Recency, Frequency, Monetary) analysis classifies users into three value groups: high, mid, and low.  This segmentation helps in understanding user retention, loyalty, and contribution to revenue. \
+🔹 Fraud Detection & Data Integrity – To ensure accurate insights, fraudulent traffic was excluded from the analysis, preventing skewed results. \
 🔹 Country-Specific Insights – I expanded the segmentation by analyzing user distribution across different countries, calculating the share of each segment, the average age per group, and the gender composition.
 
 💼 This approach enables data-driven decision-making, allowing businesses to focus on high-value users while optimizing engagement strategies for lower-tier segments.
@@ -56,8 +56,8 @@ See step 4 in the [instructions](INSTRUCTIONS.md) for guidance on exploring the 
 ### Membership & User Behavior Analysis 💎
 **Question**: _How does membership type (premium vs. free) impact user engagement, revenue, and retention?_
 
-🔹 Account Type Segmentation – Users are segmented by account type (premium, normal, not logged in) to assess key metrics like LTV, ARPU, and retention.
-🔹 Engagement & Revenue Insights – Analyzed average revenue per user and refund rates across account types.
+🔹 Account Type Segmentation – Users are segmented by account type (premium, normal, not logged in) to assess key metrics like LTV, ARPU, and retention. \
+🔹 Engagement & Revenue Insights – Analyzed average revenue per user and refund rates across account types. \
 🔹 Retention Analysis – Calculated weekly retention rates to understand user loyalty and return behavior for each segment.
 
 📈 This approach helps identify key drivers of user value, guiding strategies to enhance engagement and revenue across different membership types
