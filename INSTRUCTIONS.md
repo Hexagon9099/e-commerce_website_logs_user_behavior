@@ -39,7 +39,7 @@ If you have a GCP project, service account (with "BigQuery Admin" and "Storage A
 2.6. Replace the content of row 5 with your GCP Project ID, which we have already specified in the 2.3 clause. \
 2.7. Save and close the [schema.yml](workflows/schema.yml) file. Don't change anything else in this file besides the action in the 2.6 clause for the project to run smoothly. \
 2.8. Open a terminal in the root directory of this project. Execute the command \
-      `cp ./workflows/schema.yml ./project_insides/dbt/web_logs/models/schema.yml` 
+      `cp ./workflows/schema.yml ./project_insides/kestra-data/website_logs/_files/models/schema.yml` 
 
 
 ## Step 3. Executing workflows
