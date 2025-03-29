@@ -219,7 +219,7 @@ tasks:
     namespace: "{{flow.namespace}}"
     gitDirectory: project_insides/dbt/web_logs
     dryRun: false
-    # disabled: true #this Git Sync is needed only when running it the first time, afterwards the task can be disabled
+    disabled: true #Don't enable this task for the project to run. This task is needed only if dbt models change, but after enabling it, you should replace "de-projects-453518" with your project ID in ./project_insides/kestra-data/website_logs/_files/models/schema.yml
 
   - id: dbt_models
     type: io.kestra.plugin.dbt.cli.DbtCLI

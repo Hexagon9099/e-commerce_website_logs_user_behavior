@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: source_bq
     database: de-projects-453518 #Replace with your GCP project id, specified in "gcp_project_id" task of "1_gcp_kv.yml" file
-    schema: web_logs_dataset # Replace with your BQ dataset name, specified in "gcp_dataset" task of "1_gcp_kv.yml" file
+    schema: web_logs_dataset 
 
     tables:
       - name: web_logs
