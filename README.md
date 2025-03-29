@@ -28,7 +28,7 @@ To run the project, go to [instructions](INSTRUCTIONS.md). The instructions are 
 1. [Dashboard](https://lookerstudio.google.com/s/quHfV4HKzzA) in Looker Studio. Here you will find the analysis results and business recommendations.
 2. BigQuery. If you have run the project, the transformed data will be available in your BigQuery instance for deeper exploration.
 
-See step 4 in the [instructions](INSTRUCTIONS.md) for guidance on exploring the results.
+See step 4 in the [instructions](https://github.com/Hexagon9099/website_logs/blob/main/INSTRUCTIONS.md#step-4-exploring-the-project-results) for guidance on exploring the results.
 
 ## Detailed project description (optional)
 ### Fraud Detection & Security Analysis 🕵️‍♂️
