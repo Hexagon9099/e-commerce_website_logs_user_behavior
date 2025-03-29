@@ -34,7 +34,7 @@ If you have a GCP project, service account (with "BigQuery Admin" and "Storage A
 2.1. Open the [1_gcp_kv.yml](workflows/1_gcp_kv.yml) workflow with any IDE (e.g. VS Code). The file is located at `workflows/1_gcp_kv.yml` \
 2.2. Replace the rows from `12` to `24` (included) with the content of your GCP credentials file, extracted in 1.8 clause. \
 2.3. Replace the value in row `31` with your GCP project ID, which you can find in the 1.2 clause. \
-2.4. Come up with a GCS bucket name and replace the value in row `45`. You can put any name you come up with, but it has to be globally unique, so I recommend using your project ID and several random digits after it as shown in the example. \
+2.4. Come up with a GCS bucket name and replace the value in row `45`. You can put any name you come up with, but it has to be globally unique, so I recommend using your project ID and several random symbols after it as shown in the example. \
 2.5. Save the [1_gcp_kv.yml](workflows/1_gcp_kv.yml) file and open [schema.yml](workflows/schema.yml), located at `workflows/schema.yml` \
 2.6. Replace the content of row 5 with your GCP Project ID, which we have already specified in the 2.3 clause. \
 2.7. Save and close the [schema.yml](workflows/schema.yml) file. Don't change anything else in this file besides the action in the 2.6 clause for the project to run smoothly. \
