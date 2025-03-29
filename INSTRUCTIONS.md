@@ -13,7 +13,7 @@ Execute the project in the terminal while in the root directory of this project.
 If you have a GCP project, service account (with "BigQuery Admin" and "Storage Admin" roles) and its credentials ready to use, you can skip this step. Otherwise
 
 1.1. Go to [GCP console](https://console.cloud.google.com/) \
-1.2. Choose a GCP project where you want to implement this GitHub project in (1). You can either create a new project (2.1) or choose an existing one (2.2). Note that we will need project ID (3) in the 2.2 clause, which you can extract from here. \
+1.2. Choose a GCP project where you want to implement this GitHub project in (1). You can either create a new project (2.1) or choose an existing one (2.2). Note that we will need project ID (3) in the 2.3 clause, which you can extract from here. \
    ![step 1.2 image](https://i.imgur.com/TEaJC5Q.jpeg) \
 1.3. Click on "Navigation menu" (number 4 on the screenshot above), then go to "IAM and Admin" (5) -> "Service accounts" (6). Click on "Create service account" (7).
    ![step 1.3 image](https://i.imgur.com/s1CUgcm.jpeg) \
