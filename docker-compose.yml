@@ -7,7 +7,7 @@ volumes:
     driver: local
   kestra-data:
     driver: local
-  shared-data:
+  spark-data:
     external: true
 
 services:
@@ -41,7 +41,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./project_insides/kestra-data/kestra-wd:/tmp/kestra-wd
       - ./project_insides/pyspark/scripts:/opt/spark/scripts
-      - shared-data:/data
+      - spark-data:/data
     environment:
       KESTRA_CONFIGURATION: |
         datasources:
@@ -92,7 +92,7 @@ services:
    volumes:
      - ./project_insides/pyspark/scripts:/opt/spark/scripts
      - ./project_insides/pyspark/logs:/opt/spark/logs
-     - shared-data:/data
+     - spark-data:/data
    ports:
      - "4040:4040"
      - "7077:7077"
@@ -111,7 +111,7 @@ services:
    volumes:
       - ./project_insides/pyspark/scripts:/opt/spark/scripts
       - ./project_insides/pyspark/logs:/opt/spark/logs
-      - shared-data:/data
+      - spark-data:/data
    ports:
      - "4041:4040"
    depends_on:

@@ -45,8 +45,7 @@ If you have a GCP project, service account (with "BigQuery Admin" and "Storage A
 ## Step 3. Executing workflows
 3.1. Open "Docker Desktop" on your machine, or launch the Docker engine in any other way. \
 3.2. In your terminal (assuming you're in the root directory of this project), execute the following commands: \
-   `docker volume create shared-data` \
-   `docker volume create dbt-data` \
+   `docker volume create spark-data` \
    `docker-compose up -d` \
 3.3. In any browser, go to [localhost:8080](http://localhost:8080/). Now you see Kestra UI. \
 3.4. Click on "Flows" (17), then "Import" (18) \
