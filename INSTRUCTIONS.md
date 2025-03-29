@@ -52,9 +52,9 @@ docker volume create spark-data
 docker-compose up -d
 ```
 3.3. In any browser, go to [localhost:8080](http://localhost:8080/). Now you see Kestra UI. \
-3.4. Click on "Flows" (17), then "Create" (18.1). Replace the proposed sample with the contents of [1_gcp_kv.yml](workflows/1_gcp_kv.yml) file. Click "Save" in the upper right corner. \
+3.4. Click on "Flows" (17), then "Create" (18.1). Replace the proposed sample with the contents of [1_gcp_kv.yml](workflows/1_gcp_kv.yml) file, filled in the 2.1-2.5 clauses. Click "Save" in the upper right corner. \
    ![step 3.4 image](https://i.imgur.com/d52QD7Y.jpeg) \
-3.5. Import (18.2 on the screenshot above) the remaining workflows ([2_gcp_setup.yml](workflows/2_gcp_setup.yml), [3_ETL_end_to_end_pipeline.yml](workflows/3_ETL_end_to_end_pipeline.yml)) located at the `workflows` folder. \
+3.5. Import (18.2 on the screenshot above) the remaining workflows ([2_gcp_setup.yml](workflows/2_gcp_setup.yml) and [3_ETL_end_to_end_pipeline.yml](workflows/3_ETL_end_to_end_pipeline.yml)) located at the `workflows` folder. \
 3.6. Now you see them in Kestra UI, in the "Flows" section: \
    ![step 3.6 image](https://i.imgur.com/ips8dKz.jpeg) \
 3.7. Run them in order. Click on each workflow name (19.1, 19.2, 19.3) and then on the Execute button (20). Repeat the action for all 3 workflows. \
