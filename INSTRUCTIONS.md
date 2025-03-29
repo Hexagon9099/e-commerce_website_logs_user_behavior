@@ -50,6 +50,7 @@ If you have a GCP project, service account (with "BigQuery Admin" and "Storage A
 3.3. In any browser, go to [localhost:8080](http://localhost:8080/). Now you see Kestra UI. \
 3.4. Click on "Flows" (17), then "Import" (18) \
    ![step 3.4 image](https://i.imgur.com/tpQwtwM.jpeg) \
+If you face problems importing any workflow, you can create a new workflow in Kestra UI and copy-paste the contents of the workflow you were trying to import.
 3.5. Import all the 3 workflows located at the `workflows` folder. \
      The files are: [1_gcp_kv.yml](workflows/1_gcp_kv.yml), [2_gcp_setup.yml](workflows/2_gcp_setup.yml), [3_ETL_end_to_end_pipeline.yml](workflows/3_ETL_end_to_end_pipeline.yml) \
 3.6. Now you see them in Kestra UI, in the "Flows" section: \
