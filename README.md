@@ -31,7 +31,7 @@ To run the project, go to [instructions](INSTRUCTIONS.md). The instructions are 
 See [step 4 in the instructions](https://github.com/Hexagon9099/website_logs/blob/main/INSTRUCTIONS.md#step-4-exploring-the-project-results) for guidance on exploring the results.
 
 ## Detailed project description (optional)
-### Fraud Detection & Security Analysis 🕵️‍♂️
+### 1. Fraud Detection & Security Analysis 🕵️‍♂️
 **Question**: _How can we systematically detect and eliminate fraudulent traffic to ensure data integrity?_
 
 🚨 Advanced Fraud Detection System – I implemented a robust multi-layered detection model to identify and filter out suspicious activity, ensuring only legitimate user data is analyzed.
@@ -44,7 +44,7 @@ See [step 4 in the instructions](https://github.com/Hexagon9099/website_logs/blo
 
 💡 _Why It Matters?_ By proactively filtering out fraudulent traffic, I enhance the accuracy of user analytics, prevent revenue loss, and strengthen platform security—making our insights truly data-driven.
 
-### Target Audience & User Segmentation 📊
+### 2. Target Audience & User Segmentation 📊
 **Question**: _How can we identify and segment our most valuable users based on their engagement and spending behavior?_
 
 🔹 User Value Segmentation – Implemented RFM (Recency, Frequency, Monetary) analysis classifies users into three value groups: high, mid, and low.  This segmentation helps in understanding user retention, loyalty, and contribution to revenue. \
@@ -53,7 +53,7 @@ See [step 4 in the instructions](https://github.com/Hexagon9099/website_logs/blo
 
 💼 This approach enables data-driven decision-making, allowing businesses to focus on high-value users while optimizing engagement strategies for lower-tier segments.
 
-### Membership & User Behavior Analysis 💎
+### 3. Membership & User Behavior Analysis 💎
 **Question**: _How does membership type (premium vs. free) impact user engagement, revenue, and retention?_
 
 🔹 Account Type Segmentation – Users are segmented by account type (premium, normal, not logged in) to assess key metrics like LTV, ARPU, and retention. \
