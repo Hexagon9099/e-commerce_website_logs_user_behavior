@@ -116,7 +116,7 @@ tasks:
       image: bitnami/spark
       networkMode: website_logs_kestra-network
       volumes:
-        - shared-data:/data
+        - spark-data:/data
       user: root
     commands:
       - cp dataset.csv /data/dataset.csv
