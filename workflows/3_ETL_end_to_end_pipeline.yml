@@ -9,12 +9,11 @@ pluginDefaults:
         location: "{{kv('GCP_LOCATION')}}"
         bucket: "{{kv('GCP_BUCKET_NAME')}}"
 
-# The schedule is for production. You don't need this feature enabled for running the project. 
-
-# triggers:
-#   - id: schedule
-#     type: io.kestra.plugin.core.trigger.Schedule
-#     cron: "0 5 * * 1"
+triggers:
+  - id: schedule
+    type: io.kestra.plugin.core.trigger.Schedule
+    cron: "0 5 * * 1"
+    disabled: true # The schedule is for production. You don't need this feature enabled for running the project.
 
 tasks:
   - id: extract
