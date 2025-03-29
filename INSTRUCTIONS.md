@@ -61,7 +61,7 @@ If you have a GCP project, service account (with "BigQuery Admin" and "Storage A
 
 ## Step 4. Exploring the project results 
 4.1. The project's dashboard is constructed in Looker Studio and available [here](https://lookerstudio.google.com/s/quHfV4HKzzA). \
-   If you want to explore deeper, you can check on the tables created in BigQuery, by folowwing the steps described in  clauses. \
+   If you want to explore deeper, you can check on the tables created in BigQuery, by following the steps described in  clauses. \
 4.2. Go to [GCP console](https://console.cloud.google.com/) \
 4.3. Click on "BigQuery" (21) \
    ![step 4.3 image](https://i.imgur.com/fUHn65J.jpeg) \
