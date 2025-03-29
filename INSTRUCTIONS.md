@@ -52,14 +52,14 @@ docker volume create spark-data
 docker-compose up -d
 ```
 3.3. In any browser, go to [localhost:8080](http://localhost:8080/). Now you see Kestra UI. \
-3.4. Click on "Flows" (17), then "Import" (18) \
-   ![step 3.4 image](https://i.imgur.com/tpQwtwM.jpeg) \
-3.5. Import all the 3 workflows located at the `workflows` folder. \
-     The files are: [1_gcp_kv.yml](workflows/1_gcp_kv.yml), [2_gcp_setup.yml](workflows/2_gcp_setup.yml), [3_ETL_end_to_end_pipeline.yml](workflows/3_ETL_end_to_end_pipeline.yml) \
-3.6. Now you see them in Kestra UI, in the "Flows" section: \
-   ![step 3.6 image](https://i.imgur.com/ips8dKz.jpeg) \
-3.7. Run them in order. Click on each workflow name (19.1, 19.2, 19.3) and then on the Execute button (20). Repeat the action for all 3 workflows. \
-   ![step 3.7 image](https://i.imgur.com/zCXZzq4.jpeg) \
+3.4. Click on "Flows" (17). \
+   ![step 3.4 image](https://i.imgur.com/d52QD7Y.jpeg) \
+3.5. Click on "Create" (18.1 on the screenshot above) and replace the proposed sample with the contents of [1_gcp_kv.yml](workflows/1_gcp_kv.yml) file. Click "Save" in the upper right corner. \
+3.6. Import (18.2 on the screenshot above) the remaining workflows ([2_gcp_setup.yml](workflows/2_gcp_setup.yml), [3_ETL_end_to_end_pipeline.yml](workflows/3_ETL_end_to_end_pipeline.yml) located at the `workflows` folder. \
+3.7. Now you see them in Kestra UI, in the "Flows" section: \
+   ![step 3.7 image](https://i.imgur.com/ips8dKz.jpeg) \
+3.8. Run them in order. Click on each workflow name (19.1, 19.2, 19.3) and then on the Execute button (20). Repeat the action for all 3 workflows. \
+   ![step 3.8 image](https://i.imgur.com/zCXZzq4.jpeg) \
    Congratulations! The project has been successfully executed. \
    If you encounter any issues, feel free to report them in the [Issues](https://github.com/Hexagon9099/website_logs/issues) section of this repository.
 
