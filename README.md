@@ -35,7 +35,7 @@ See [step 4 in the instructions](https://github.com/Hexagon9099/website_logs/blo
 Before the data is loaded into the GCS Datalake, it undergoes preprocessing, cleaning, and normalization using Apache Spark, ensuring that even the first table in BigQuery contains clean, standardized data. Afterward, dbt models leverage these cleansed datasets to generate business analytics and insights.
 
 Key data transformations in Spark: \
-🔹 Data cleaning and normalization: fixing anomalies and standardizing values (e.g., SafFRi → Safari, payment methods corrections). \
+🔹 Data cleaning and normalization: fixing anomalies and standardizing values (e.g., `SafFRi` → `Safari`, payment methods corrections). \
 🔹 Date handling: using `make_timestamp()` to correct timestamps. \
 🔹 Null management: replacing `Unknown` with `NULL` for accurate gender analysis. \
 🔹 Data classification: standardizing payment methods. \
