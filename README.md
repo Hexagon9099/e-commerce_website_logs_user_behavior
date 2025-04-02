@@ -31,6 +31,17 @@ To run the project, go to [instructions](INSTRUCTIONS.md). The instructions are 
 See [step 4 in the instructions](https://github.com/Hexagon9099/website_logs/blob/main/INSTRUCTIONS.md#step-4-exploring-the-project-results) for guidance on exploring the results.
 
 ## Detailed project description (optional)
+### ⚙️ Data Preprocessing with Apache Spark
+Before the data is loaded into the GCS Datalake, it undergoes preprocessing, cleaning, and normalization using Apache Spark, ensuring that even the first table in BigQuery contains clean, standardized data. Afterward, dbt models leverage these cleansed datasets to generate business analytics and insights.
+
+Key data transformations in Spark: \
+🔹 Data cleaning and normalization: fixing anomalies and standardizing values (e.g., SafFRi → Safari, payment methods corrections). \
+🔹 Date handling: using `make_timestamp()` to correct timestamps. \
+🔹 Null management: replacing `Unknown` with `NULL` for accurate gender analysis. \
+🔹 Data classification: standardizing payment methods. \
+🔹 Performance optimization: `repartition(10)` for efficient data distribution before writing to Parquet. 
+
+### 👨‍💼 Advanced Business Analytics with dbt
 ### 1. Fraud Detection & Security Analysis 🕵️‍♂️
 **Question**: _How can we systematically detect and eliminate fraudulent traffic to ensure data integrity?_
 
