@@ -41,37 +41,35 @@ Key data transformations in Spark: \
 🔹 Data classification: standardizing payment methods. \
 🔹 Performance optimization: `repartition(10)` for efficient data distribution before writing to Parquet. 
 
-### 👨‍💼 Advanced Business Analytics with dbt
+### 📈 Advanced Business Analytics with dbt
 ### 1. Fraud Detection & Security Analysis 🕵️‍♂️
-**Question**: _How can we systematically detect and eliminate fraudulent traffic to ensure data integrity?_
+_How can we systematically detect and eliminate fraudulent traffic to ensure data integrity?_
 
-🚨 Advanced Fraud Detection System – I implemented a robust multi-layered detection model to identify and filter out suspicious activity, ensuring only legitimate user data is analyzed.
+🚨 Advanced Fraud Detection: I implemented a multi-layered detection model with a triple-criteria approach: \
+🔹 High-frequency requests: IPs making over 3 requests per second flagged as bots. \
+🔹 Unrealistic account usage: IPs accessing all 3 account types in one day. \
+🔹 Suspicious session behavior: Users with top 25% session durations and data consumption. \
+🚨 Only IPs meeting all 3 criteria are flagged as fraudulent.
 
-✅ Triple-Criteria Approach: \
- 🔹 High-Frequency Requests – IPs making more than 3 requests per second are flagged as potential bots. \
- 🔹 Unrealistic Account Usage – IPs accessing all 3 unique account types in a single day indicate potential credential abuse. \
- 🔹 Suspicious Session Behavior – Users with session durations and data consumption in the top 25% of all users, repeating this pattern multiple times, are likely engaging in fraudulent activity. \
-🚨 Only those IPs that fulfilled all 3 criteria are considered fraudulent.
-
-💡 _Why It Matters?_ By proactively filtering out fraudulent traffic, I enhance the accuracy of user analytics, prevent revenue loss, and strengthen platform security—making our insights truly data-driven.
+💡 Why it matters? Reduces fraudulent data, ensuring accurate analytics, protecting revenue, and enhancing platform security.
 
 ### 2. Target Audience & User Segmentation 📊
-**Question**: _How can we identify and segment our most valuable users based on their engagement and spending behavior?_
+_How can we segment users based on engagement and spending?_
 
-🔹 User Value Segmentation – Implemented RFM (Recency, Frequency, Monetary) analysis classifies users into three value groups: high, mid, and low.  This segmentation helps in understanding user retention, loyalty, and contribution to revenue. \
-🔹 Fraud Detection & Data Integrity – To ensure accurate insights, fraudulent traffic was excluded from the analysis, preventing skewed results. \
-🔹 Country-Specific Insights – I expanded the segmentation by analyzing user distribution across different countries, calculating the share of each segment, the average age per group, and the gender composition.
+🔹 RFM Analysis: Users classified by Recency, Frequency, Monetary (high, mid, low) to understand retention and revenue. \
+🔹 Fraud exclusion: Ensures data integrity by excluding fraudulent traffic. \
+🔹 Country Insights: Segmentation across countries, analyzing demographics like age and gender.
 
-💼 This approach enables data-driven decision-making, allowing businesses to focus on high-value users while optimizing engagement strategies for lower-tier segments.
+💡 Why it matters? Drives data-driven decisions, focusing on high-value users while optimizing engagement for lower segments.
 
 ### 3. Membership & User Behavior Analysis 💎
-**Question**: _How does membership type (premium vs. free) impact user engagement, revenue, and retention?_
+_How does membership type impact engagement and revenue?_
 
-🔹 Account Type Segmentation – Users are segmented by account type (premium, normal, not logged in) to assess key metrics like LTV, ARPU, and retention. \
-🔹 Engagement & Revenue Insights – Analyzed average revenue per user and refund rates across account types. \
-🔹 Retention Analysis – Calculated weekly retention rates to understand user loyalty and return behavior for each segment.
+🔹 Account Type Segmentation: Users categorized by membership type (premium, normal, not logged in). \
+🔹 Revenue & Retention: Analyzed LTV, ARPU, and retention metrics. \
+🔹 Engagement Insights: Evaluated weekly retention rates and user behavior for each segment.
 
-📈 This approach helps identify key drivers of user value, guiding strategies to enhance engagement and revenue across different membership types
+💡 Why it matters? Identifies key drivers of user value, informing strategies to optimize engagement and revenue across membership types.
 
 ## Code & Configurations (optional)
 1. [End-to-end pipeline](workflows/3_ETL_end_to_end_pipeline.yml). This is the major pipeline, which shows you all the details about project inner processes. The visualization of all the processes going on in this pipeline is shown under the "[Architecture](#Architecture)" section as the contents of the purple dashed rectangle.
