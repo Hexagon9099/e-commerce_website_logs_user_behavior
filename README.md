@@ -40,7 +40,6 @@ Key data transformations in Spark: \
 🔹 Data cleaning and normalization: fixing anomalies and standardizing values (e.g., `SafFRi` → `Safari`, etc.). \
 🔹 Date handling: using `make_timestamp()` to correct timestamps. \
 🔹 Null management: replacing `Unknown` with `NULL` for accurate gender analysis. \
-🔹 Data classification: standardizing payment methods. \
 🔹 Performance optimization: `repartition(10)` for efficient data distribution before writing to Parquet. 
 
 ### 📈 Advanced Business Analytics with dbt
