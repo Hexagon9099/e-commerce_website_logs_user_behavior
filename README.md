@@ -22,7 +22,9 @@ The website faced challenges with fraudulent traffic and inefficient user segmen
 7. Metadata & Workflow Storage – PostgreSQL (for Kestra)
 
 ## Running this project
-To run the project, go to [instructions](INSTRUCTIONS.md). The instructions are beginner-friendly, so you will be able to run the project even if you have no experience with the mentioned technologies.
+To run the project, go to [instructions](INSTRUCTIONS.md). \
+The instructions are beginner-friendly, so you will be able to run the project even if you have no experience with the mentioned technologies.
+
 
 ## Results
 1. [Dashboard](https://lookerstudio.google.com/s/quHfV4HKzzA) in Looker Studio. Here you will find the analysis results and business recommendations.
